@@ -32,24 +32,28 @@ def show_help():
 
 # Function to perform a test and display results
 def test_bypass(option, header):
-    result = requests.get(
-        f"{url}/{path}{option}", headers={"User-Agent": header}, verify=False, allow_redirects=False
-    )
-    result_info = f"{result.status_code},{len(result.content)}"
+    try:
+        result = requests.get(
+            f"{url}/{path}{option}", headers={"User-Agent": header}, verify=False, allow_redirects=False
+        )
+        result_info = f"{result.status_code},{len(result.content)}"
 
-    if success_only and result.status_code != 200:
-        return
+        if success_only and result.status_code != 200:
+            return
 
-    print(f"  [+] Requested URL: {url}/{path}{option}")
-    print(f"  --> Header: {header}")
-    print(f"  --> Result: {result_info}")
+        print(f"  [+] Requested URL: {url}/{path}{option}")
+        print(f"  --> Header: {header}")
+        print(f"  --> Result: {result_info}")
 
-    # Highlight responses with a 200 status code
-    if result.status_code == 200:
-        print("\033[92m  --> Status Code: 200\033[0m")
-        print("")
-    else:
-        print()
+        # Highlight responses with a 200 status code
+        if result.status_code == 200:
+            print("\033[92m  --> Status Code: 200\033[0m")
+            print("")
+        else:
+            print()
+    except KeyboardInterrupt:
+        print("\nExiting...")
+        sys.exit(0)
 
 # Function to read paths from a file
 def read_paths_from_file(file_path):
@@ -160,4 +164,8 @@ def main():
             )
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nExiting...")
+        sys.exit(0)
