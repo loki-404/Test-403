@@ -138,12 +138,12 @@ def main():
     show_banner()
 
     print(f"Testing for 403 Bypass on {url}")
-    print()
 
     # Perform tests and display results for each path
     for path in paths:
+        print(f"\nTesting for path: {path}")
         for option, header in test_cases:
-            test_bypass(option.format(path=path), header)
+            test_bypass(option, header)
 
     # Wayback Machine check
     if show_wayback:
